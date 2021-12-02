@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { TypeClient } from './clientType-enum';
+import { TypeClient } from './client-type.enum';
 
 export type ClientDocument = Client & Document;
 
