@@ -1,4 +1,5 @@
 export enum TypeClient {
-  RENTER = 'INQUILINO',
-  OWNER = 'PROPIETARIO',
+  RENTER = 'RENTER',
+  OWNER = 'OWNER',
+  WARRANTY = 'WARRANTY',
 }
