@@ -1,50 +1,65 @@
-import { NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  NotFoundException,
+} from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
 import { FilterQuery, Model, Types } from 'mongoose';
 
-export class BaseService<T, K> {
-  constructor(private readonly model: Model<T>) {}
+export class BaseService<MODEL, DTO, DTOUPDATE> {
+  constructor(private readonly model: Model<MODEL>) {}
 
-  public async create(dto: K): Promise<T> {
-    const createdEntity = new this.model(dto);
-    const entity = await createdEntity.save();
-    if (createdEntity) {
-      return createdEntity.toObject() as T;
+  public async create(dto: DTO): Promise<MODEL> {
+    try {
+      await this.model.init();
+      const createdEntity = new this.model(dto);
+      await createdEntity.save({}, function (err) {
+        throw new ConflictException(err);
+      });
+      if (createdEntity) {
+        return createdEntity.toObject() as MODEL;
+      }
+      return null;
+    } catch (error) {
+      throw new ConflictException(error);
     }
-    return null;
   }
 
-  public async findById(id: string): Promise<T> {
+  public async findById(id: string): Promise<MODEL> {
     try {
-      return (await this.model.findById(id).lean()) as T;
+      return (await this.model.findById(id).lean()) as MODEL;
     } catch (error) {
       throw new NotFoundException(error.message);
     }
   }
-  public async findAll(query?: FilterQuery<T>): Promise<T[]> {
+  public async findAll(query?: FilterQuery<MODEL>): Promise<MODEL[]> {
     return await this.model.find(query).lean();
   }
-  public async findOne(query?: FilterQuery<T>): Promise<T> {
+  public async findOne(query?: FilterQuery<MODEL>): Promise<MODEL> {
     return this.model.findOne(query, null, { lean: true });
   }
 
-  public async update(id: Types.ObjectId, model: T): Promise<T> {
-    // const finded = await this.model.findById(id);
-
+  public async update(id: string, dto: DTOUPDATE): Promise<MODEL> {
     //Borro las propiedades que sean null o undefined
-    let atributes = Object.keys(model);
-    atributes = atributes.filter(
-      (a) => model[a] == null && model[a] == undefined,
-    );
+    let atributes = Object.keys(dto);
+    atributes = atributes.filter((a) => dto[a] == null && dto[a] == undefined);
     atributes.forEach((a) => {
-      delete model[a];
+      delete dto[a];
     });
     //------
 
-    const res = await this.model.findByIdAndUpdate(id, model, {
+    const res = await this.model.findByIdAndUpdate(id, dto, {
       lean: true,
       new: true,
     });
-    return res;
+    if (res) {
+      return res;
+    } else {
+      throw new HttpException(
+        'Error al actualizar, verifique que el id sea correcto',
+        404,
+      );
+    }
   }
 
   public async remove(id: string): Promise<string> {

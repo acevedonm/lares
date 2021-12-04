@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ClientsService } from './clients.service';
-import { CreateClientDto } from './dto';
+import { CreateClientDto, UpdateClientDto } from './dto';
 @ApiTags('Clients')
 @Controller('clients')
 export class ClientsController {
@@ -30,10 +30,10 @@ export class ClientsController {
     return this.clientsService.findById(id);
   }
 
-  /*   @Patch(':id')
+  @Patch(':id')
   update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
     return this.clientsService.update(id, updateClientDto);
-  } */
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -7,7 +7,11 @@ import { UpdateContractDto } from './dto/update-contract.dto';
 import { Contract, ContractDocument } from './entities/contract.entity';
 
 @Injectable()
-export class ContractsService extends BaseService<Contract, CreateContractDto> {
+export class ContractsService extends BaseService<
+  Contract,
+  CreateContractDto,
+  UpdateContractDto
+> {
   constructor(
     @InjectModel(Contract.name) private contractModel: Model<ContractDocument>,
   ) {

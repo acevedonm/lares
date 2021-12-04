@@ -4,17 +4,18 @@ interface increase {
   date: Date;
   percentage: number;
 }
+
 export type ContractDocument = Contract & Document;
 
 @Schema()
 export class Contract {
-  @Prop()
+  @Prop({ required: true, ref: 'clients' })
   renter: string;
 
-  @Prop()
+  @Prop({ required: true, ref: 'clients' })
   owner: string;
 
-  @Prop()
+  @Prop({ required: true, ref: 'clients' })
   warranties: string[];
 
   @Prop()
@@ -35,5 +36,4 @@ export class Contract {
   @Prop()
   commissionPercentage: number;
 }
-
 export const ContractSchema = SchemaFactory.createForClass(Contract);

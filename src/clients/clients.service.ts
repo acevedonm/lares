@@ -7,7 +7,11 @@ import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
 @Injectable()
-export class ClientsService extends BaseService<Client, CreateClientDto> {
+export class ClientsService extends BaseService<
+  Client,
+  CreateClientDto,
+  UpdateClientDto
+> {
   constructor(
     @InjectModel(Client.name) private clientModel: Model<ClientDocument>,
   ) {

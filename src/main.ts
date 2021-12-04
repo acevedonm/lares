@@ -8,6 +8,8 @@ async function bootstrap() {
   const logger = new Logger();
   initSwagger(app);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  await app.listen(3000);
+  const port = 3000;
+  await app.listen(port);
+  logger.log(`Lares listen in port: ${port}`);
 }
 bootstrap();

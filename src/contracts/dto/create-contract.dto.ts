@@ -1,6 +1,14 @@
-import { IsArray, IsDate, IsNumber, IsString } from 'class-validator';
-interface increase {
-  date: Date;
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+class increase {
+  date?: Date;
   percentage: number;
 }
 export class CreateContractDto {
@@ -15,12 +23,16 @@ export class CreateContractDto {
   warranties: string[];
 
   @IsDate()
+  @IsOptional()
   start: Date;
 
   @IsDate()
+  @IsOptional()
   end: Date;
 
   @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => increase)
   increases: increase[];
 
   @IsNumber()
