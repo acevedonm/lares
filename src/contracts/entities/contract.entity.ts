@@ -1,22 +1,31 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Mongoose, Types } from 'mongoose';
+import { Client } from 'src/clients/entities/client.entity';
 interface increase {
   date: Date;
   percentage: number;
 }
 
 export type ContractDocument = Contract & Document;
-
 @Schema()
 export class Contract {
-  @Prop({ required: true, ref: 'clients' })
-  renter: string;
+  @Prop({
+    required: true,
+    ref: 'clients',
+  })
+  renter: Types.ObjectId;
 
-  @Prop({ required: true, ref: 'clients' })
-  owner: string;
+  @Prop({
+    required: true,
+    ref: 'clients',
+  })
+  owner: Types.ObjectId;
 
-  @Prop({ required: true, ref: 'clients' })
-  warranties: string[];
+  @Prop({
+    required: true,
+    ref: 'clients',
+  })
+  warranties: Types.ObjectId[];
 
   @Prop()
   start: Date;

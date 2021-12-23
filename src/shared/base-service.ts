@@ -13,9 +13,7 @@ export class BaseService<MODEL, DTO, DTOUPDATE> {
     try {
       await this.model.init();
       const createdEntity = new this.model(dto);
-      await createdEntity.save({}, function (err) {
-        throw new ConflictException(err);
-      });
+      await createdEntity.save();
       if (createdEntity) {
         return createdEntity.toObject() as MODEL;
       }
