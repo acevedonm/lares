@@ -23,6 +23,16 @@ export class Contract {
 
   @Prop({
     required: true,
+  })
+  price: number;
+
+  @Prop({
+    required: true,
+  })
+  total: number;
+
+  @Prop({
+    required: true,
     ref: 'clients',
   })
   warranties: Types.ObjectId[];

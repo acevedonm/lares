@@ -18,6 +18,12 @@ export class CreateContractDto {
   @IsString()
   owner: string;
 
+  @IsNumber()
+  price: number;
+
+  @IsNumber()
+  total: number;
+
   @IsString({ each: true })
   @IsArray()
   warranties: string[];
