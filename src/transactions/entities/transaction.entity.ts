@@ -37,7 +37,7 @@ export class Transaction {
   increase: number;
 
   @Prop({ required: false })
-  Observations: string;
+  observations: string;
 }
 
 export const TransactionSchema = SchemaFactory.createForClass(Transaction);

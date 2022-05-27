@@ -38,5 +38,5 @@ export class CreateTransactionDto {
 
   @IsString()
   @IsOptional()
-  Observations: string;
+  observations: string;
 }
